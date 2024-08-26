@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="filters">
+    <h2>FILTERS</h2>
+    <div class="filter-group">
+      <label for="movieName">Movie Name:</label>
+      <select id="movieName" [(ngModel)]="filters.movieName" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option value="Star Wars: Episode IV – A New Hope">Star Wars: Episode IV – A New Hope</option>
+        <option value="Star Wars: Episode V – The Empire Strikes Back">Star Wars: Episode V – The Empire Strikes Back</option>
+        <option value="Star Wars: Episode VI – Return of the Jedi">Star Wars: Episode VI – Return of the Jedi</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="species">Species:</label>
+      <select id="species" [(ngModel)]="filters.species" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option value="Human">Human</option>
+        <option value="Droid">Droid</option>
+        <option value="Wookiee">Wookiee</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="vehicle">Vehicle:</label>
+      <select id="vehicle" [(ngModel)]="filters.vehicle" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option value="X-wing">X-wing</option>
+        <option value="TIE fighter">TIE fighter</option>
+        <option value="Millennium Falcon">Millennium Falcon</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="starShips">Star Ships:</label>
+      <select id="starShips" [(ngModel)]="filters.starShips" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option value="Death Star">Death Star</option>
+        <option value="Millennium Falcon">Millennium Falcon</option>
+        <option value="Executor">Executor</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="birthYear">Birth Year:</label>
+      <select id="birthYear" [(ngModel)]="filters.birthYear" (change)="onFilterChange()">
+        <option value="ALL">ALL</option>
+        <option value="BBD20">BBD20</option>
+      </select>
+    </div>
+    <div>
+        <button (click)="getCharacters()">Search</button>
+    </div>
+  </div>
+
+  <div class="search-results">
+    <h2>SEARCH RESULTS</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>SI No.</th>
+          <th>Character Name</th>
+          <th>Species</th>
+          <th>Birth Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let character of characters$ | async; let i = index">
+          <td>{{ i + 1 + (currentPage - 1) * 10 }}</td>
+          <td>{{ character.name }}</td>
+          <td>{{ getSpeciesName(character.species) }}</td>
+          <td>{{ character.birth_year }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span *ngFor="let page of [].constructor(totalPages); let i = index">
+        <button (click)="onPageChange(i + 1)" [class.active]="currentPage === i + 1">{{ i + 1 }}</button>
+      </span>
+      <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+</div>
